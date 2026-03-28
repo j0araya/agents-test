@@ -1,9 +1,9 @@
 /**
  * Script: update-image-urls.ts
  * Updates the imageUrl field for all 16 Chilean regions in MongoDB.
- * Images sourced from Wikimedia Commons (public domain).
+ * Images sourced from Unsplash (free to use under Unsplash License).
  *
- * Run with: npx tsx scripts/update-image-urls.ts
+ * Run with: MONGODB_URI="..." npx tsx scripts/update-image-urls.ts
  */
 
 import mongoose from 'mongoose';
@@ -12,40 +12,72 @@ import { Region } from '../src/models/Region';
 const MONGODB_URI =
   process.env.MONGODB_URI || 'mongodb://localhost:27017/chile_atlas';
 
-// Wikimedia Commons landscape photos — public domain, high quality
+// Unsplash landscape photos — free to use, high quality, verified 200
+// Format: https://images.unsplash.com/photo-{ID}?w=1280&q=80&fit=crop&auto=format
 const IMAGE_URLS: Record<string, string> = {
+  // Arica y Parinacota — altiplano andino, desierto costero
   'arica-y-parinacota':
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Lauca_National_Park_-_Chile.jpg/1280px-Lauca_National_Park_-_Chile.jpg',
+    'https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?w=1280&q=80&fit=crop&auto=format',
+
+  // Tarapacá — desierto de Atacama, geoglifos
   tarapaca:
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Geoglyphs_of_Pintados.jpg/1280px-Geoglyphs_of_Pintados.jpg',
+    'https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=1280&q=80&fit=crop&auto=format',
+
+  // Antofagasta — Valle de la Luna, costa del Pacífico
   antofagasta:
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Valle_de_la_Luna_-_Atacama.jpg/1280px-Valle_de_la_Luna_-_Atacama.jpg',
+    'https://images.unsplash.com/photo-1526392060635-9d6019884377?w=1280&q=80&fit=crop&auto=format',
+
+  // Atacama — desierto, salares, flores
   atacama:
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Atacama_salt_flat.jpg/1280px-Atacama_salt_flat.jpg',
+    'https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?w=1280&q=80&fit=crop&auto=format',
+
+  // Coquimbo — Valle del Elqui, costa
   coquimbo:
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Valle_del_Elqui.jpg/1280px-Valle_del_Elqui.jpg',
+    'https://images.unsplash.com/photo-1609137144813-7d9921338f24?w=1280&q=80&fit=crop&auto=format',
+
+  // Valparaíso — cerros coloridos, puerto
   valparaiso:
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Valpara%C3%ADso_desde_el_mar.jpg/1280px-Valpara%C3%ADso_desde_el_mar.jpg',
+    'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1280&q=80&fit=crop&auto=format',
+
+  // Metropolitana — Santiago, Andes
   metropolitana:
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Santiago_de_Chile_-_panoramio.jpg/1280px-Santiago_de_Chile_-_panoramio.jpg',
+    'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=1280&q=80&fit=crop&auto=format',
+
+  // O'Higgins — cordillera, valle central
   "o'higgins":
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Rancagua_-_Mina_El_Teniente.jpg/1280px-Rancagua_-_Mina_El_Teniente.jpg',
+    'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=1280&q=80&fit=crop&auto=format',
+
+  // Maule — viñedos, río Maule
   maule:
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Lago_Colbun_Chile.jpg/1280px-Lago_Colbun_Chile.jpg',
+    'https://images.unsplash.com/photo-1532274402911-5a369e4c4bb5?w=1280&q=80&fit=crop&auto=format',
+
+  // Ñuble — precordillera, volcanes
   nuble:
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Chillan_viejo_plaza.jpg/1280px-Chillan_viejo_plaza.jpg',
+    'https://images.unsplash.com/photo-1616440347437-b1c73416efc2?w=1280&q=80&fit=crop&auto=format',
+
+  // Biobío — lago Laja, costa
   biobio:
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Laguna_del_Laja.jpg/1280px-Laguna_del_Laja.jpg',
+    'https://images.unsplash.com/photo-1602088113235-229c19758e9f?w=1280&q=80&fit=crop&auto=format',
+
+  // Araucanía — lago Villarrica, volcán, araucarias
   araucania:
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Lago_Villarrica_y_volcan.jpg/1280px-Lago_Villarrica_y_volcan.jpg',
+    'https://images.unsplash.com/photo-1605722243979-fe0be8158232?w=1280&q=80&fit=crop&auto=format',
+
+  // Los Ríos — Valdivia, selva valdiviana
   'los-rios':
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Valdivia_rio_calle_calle.jpg/1280px-Valdivia_rio_calle_calle.jpg',
+    'https://images.unsplash.com/photo-1605462863863-10d9e47e15ee?w=1280&q=80&fit=crop&auto=format',
+
+  // Los Lagos — lagos, volcanes, Chiloé
   'los-lagos':
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Puerto_Montt_bay.jpg/1280px-Puerto_Montt_bay.jpg',
+    'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1280&q=80&fit=crop&auto=format',
+
+  // Aysén — Carretera Austral, glaciares, fiordos
   aysen:
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Carretera_Austral_Aysen.jpg/1280px-Carretera_Austral_Aysen.jpg',
+    'https://images.unsplash.com/photo-1508193638397-1c4234db14d8?w=1280&q=80&fit=crop&auto=format',
+
+  // Magallanes — Torres del Paine, Patagonia
   magallanes:
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Torres_del_Paine_Chile.jpg/1280px-Torres_del_Paine_Chile.jpg',
+    'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1280&q=80&fit=crop&auto=format',
 };
 
 async function run() {
