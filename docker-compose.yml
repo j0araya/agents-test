@@ -1,22 +1,20 @@
 version: '3.9'
 
 services:
-  postgres:
-    image: postgres:15-alpine
+  mongo:
+    image: mongo:7
     container_name: chile_atlas_db
     environment:
-      POSTGRES_DB: chile_atlas
-      POSTGRES_USER: chile
-      POSTGRES_PASSWORD: chile_dev
+      MONGO_INITDB_DATABASE: chile_atlas
     ports:
-      - '5432:5432'
+      - '27017:27017'
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - mongo_data:/data/db
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U chile -d chile_atlas']
+      test: ['CMD', 'mongosh', '--eval', "db.adminCommand('ping')"]
       interval: 10s
       timeout: 5s
       retries: 5
 
 volumes:
-  postgres_data:
+  mongo_data:

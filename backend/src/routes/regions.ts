@@ -1,25 +1,25 @@
 import { Router, Request, Response } from 'express';
-import prisma from '../lib/prisma';
+import { Region } from '../models/Region';
 
 const router = Router();
 
-// GET /api/regions — return all regions (summary only, omit heavy fields)
+// GET /api/regions — return all regions (summary fields only)
 router.get('/', async (_req: Request, res: Response) => {
   try {
-    const regions = await (prisma as any).region.findMany({
-      select: {
-        id: true,
-        slug: true,
-        name: true,
-        number: true,
-        capital: true,
-        population: true,
-        area: true,
-        description: true,
-        color: true,
-      },
-      orderBy: { id: 'asc' },
-    });
+    const regions = await Region.find(
+      {},
+      {
+        slug: 1,
+        name: 1,
+        number: 1,
+        capital: 1,
+        population: 1,
+        area: 1,
+        description: 1,
+        color: 1,
+        _id: 0,
+      }
+    ).sort({ number: 1 });
     res.json(regions);
   } catch (err) {
     console.error('Error fetching regions:', err);
@@ -30,9 +30,7 @@ router.get('/', async (_req: Request, res: Response) => {
 // GET /api/regions/:slug — return full region detail
 router.get('/:slug', async (req: Request, res: Response) => {
   try {
-    const region = await (prisma as any).region.findUnique({
-      where: { slug: req.params.slug },
-    });
+    const region = await Region.findOne({ slug: req.params.slug }, { _id: 0, __v: 0 });
     if (!region) {
       res.status(404).json({ error: `Region '${req.params.slug}' not found` });
       return;
