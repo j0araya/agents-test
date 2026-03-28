@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import ChileMap from '@/src/components/ChileMap';
+import ChileSilhouette from '@/src/components/ChileSilhouette';
 import RegionCard from '@/src/components/RegionCard';
 import { ThemeToggle } from '@/src/components/ThemeToggle';
 import { getRegions } from '@/src/services/api';
@@ -58,23 +59,30 @@ export default function HomePage() {
           </p>
         </div>
 
-        {/* Right side: coordinates + toggle */}
-        <div className="flex items-end gap-4">
-          <div
-            className="hidden md:block text-right text-xs pb-1"
-            style={{
-              color: 'var(--color-text-muted)',
-              fontFamily: 'var(--font-mono)',
-              lineHeight: '2.2',
-            }}
-          >
-            <div>17°30′S — 55°59′S</div>
-            <div>66°09′W — 75°42′W</div>
-            <div style={{ color: 'var(--color-accent)', marginTop: 'var(--space-2)' }}>
-              Cono Sur · Sudamérica
-            </div>
+        {/* Right side: Chile silhouette + coordinates + toggle */}
+        <div className="flex items-end gap-6">
+          {/* Decorative Chile silhouette — hidden on small screens */}
+          <div className="hidden sm:block self-center" aria-hidden="true">
+            <ChileSilhouette className="h-24 md:h-32 w-auto" />
           </div>
-          <ThemeToggle />
+
+          <div className="flex items-end gap-4">
+            <div
+              className="hidden md:block text-right text-xs pb-1"
+              style={{
+                color: 'var(--color-text-muted)',
+                fontFamily: 'var(--font-mono)',
+                lineHeight: '2.2',
+              }}
+            >
+              <div>17°30′S — 55°59′S</div>
+              <div>66°09′W — 75°42′W</div>
+              <div style={{ color: 'var(--color-accent)', marginTop: 'var(--space-2)' }}>
+                Cono Sur · Sudamérica
+              </div>
+            </div>
+            <ThemeToggle />
+          </div>
         </div>
       </header>
 
