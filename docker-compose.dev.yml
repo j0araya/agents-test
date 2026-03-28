@@ -1,4 +1,4 @@
-# Development override — spins up a local MongoDB + backend.
+# Development override — spins up a local MongoDB + backend + frontend.
 # Usage: docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
 
 services:
@@ -24,6 +24,16 @@ services:
     depends_on:
       mongo:
         condition: service_healthy
+
+  frontend:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+      args:
+        # In dev, frontend container still proxies via nginx → backend container
+        VITE_API_URL: ""
+    depends_on:
+      - backend
 
 volumes:
   mongo_dev_data:

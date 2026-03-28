@@ -12,3 +12,14 @@ services:
     ports:
       - '3001:3001'
     restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    container_name: chile_atlas_frontend
+    ports:
+      - '80:80'
+    restart: unless-stopped
+    depends_on:
+      - backend

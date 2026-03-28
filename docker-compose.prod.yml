@@ -1,8 +1,14 @@
-# Production override — backend only, no local mongo.
-# Reads .env.prod from the repo root (gitignored).
-# MONGODB_URI must point to MongoDB Atlas.
+# Production override — backend points to Atlas, frontend served via nginx.
+# Reads backend/.env.prod (gitignored). MONGODB_URI must point to MongoDB Atlas.
 # Usage: docker compose -f docker-compose.yml -f docker-compose.prod.yml up --build
 
 services:
   backend:
     env_file: ./backend/.env.prod
+
+  frontend:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: ""
