@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getRegion } from '../services/api';
+import { ThemeToggle } from '../components/ThemeToggle';
 import type { Region } from '../types/region';
 
 const ATTRACTION_COLORS: Record<string, string> = {
@@ -38,7 +39,7 @@ export default function RegionPage() {
     return (
       <div
         className="min-h-screen flex items-center justify-center"
-        style={{ background: 'var(--navy)' }}
+        style={{ background: 'var(--color-bg)' }}
       >
         <div
           className="text-sm tracking-widest uppercase"
@@ -54,7 +55,7 @@ export default function RegionPage() {
     return (
       <div
         className="min-h-screen flex flex-col items-center justify-center"
-        style={{ background: 'var(--navy)', gap: 'var(--space-5)' }}
+        style={{ background: 'var(--color-bg)', gap: 'var(--space-5)' }}
       >
         <div className="text-3xl" style={{ color: 'var(--accent)' }}>⚠</div>
         <p style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-serif)' }}>
@@ -80,7 +81,12 @@ export default function RegionPage() {
   }
 
   return (
-    <div className="min-h-screen" style={{ background: 'var(--navy)', color: 'var(--text-primary)' }}>
+    <div className="min-h-screen" style={{ background: 'var(--color-bg)', color: 'var(--color-text-primary)' }}>
+
+      {/* Fixed theme toggle */}
+      <div style={{ position: 'fixed', top: 'var(--space-5)', right: 'var(--space-6)', zIndex: 50 }}>
+        <ThemeToggle />
+      </div>
 
       {/* Hero band */}
       <div

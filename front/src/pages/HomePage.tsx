@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import ChileMap from '../components/ChileMap';
 import RegionCard from '../components/RegionCard';
+import { ThemeToggle } from '../components/ThemeToggle';
 import { getRegions } from '../services/api';
 import type { RegionSummary } from '../types/region';
 
@@ -20,20 +21,20 @@ export default function HomePage() {
   return (
     <div
       className="min-h-screen flex flex-col"
-      style={{ background: 'var(--navy)', color: 'var(--text-primary)' }}
+      style={{ background: 'var(--color-bg)', color: 'var(--color-text-primary)' }}
     >
       {/* Header */}
       <header
         className="flex items-end justify-between"
         style={{
           padding: 'var(--space-12) var(--space-12) var(--space-10)',
-          borderBottom: '1px solid var(--border)',
+          borderBottom: '1px solid var(--color-border)',
         }}
       >
         <div>
           <div
             className="text-xs tracking-[0.35em] uppercase mb-3"
-            style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)' }}
+            style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-mono)' }}
           >
             República de Chile · 16 Regiones
           </div>
@@ -41,7 +42,7 @@ export default function HomePage() {
             className="text-4xl md:text-5xl font-normal leading-none mb-4"
             style={{
               fontFamily: 'var(--font-display)',
-              color: 'var(--text-primary)',
+              color: 'var(--color-text-primary)',
               letterSpacing: '-0.02em',
             }}
           >
@@ -49,20 +50,23 @@ export default function HomePage() {
           </h1>
           <p
             className="text-sm max-w-sm leading-relaxed"
-            style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-serif)' }}
+            style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-serif)' }}
           >
             Selecciona una región en el mapa o en la lista para explorar su geografía, cultura e historia.
           </p>
         </div>
 
-        {/* Coordinates decoration */}
-        <div
-          className="hidden md:block text-right text-xs pb-1"
-          style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', lineHeight: '2.2' }}
-        >
-          <div>17°30′S — 55°59′S</div>
-          <div>66°09′W — 75°42′W</div>
-          <div style={{ color: 'var(--accent)', marginTop: 'var(--space-2)' }}>Cono Sur · Sudamérica</div>
+        {/* Right side: coordinates + toggle */}
+        <div className="flex items-end gap-4">
+          <div
+            className="hidden md:block text-right text-xs pb-1"
+            style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-mono)', lineHeight: '2.2' }}
+          >
+            <div>17°30′S — 55°59′S</div>
+            <div>66°09′W — 75°42′W</div>
+            <div style={{ color: 'var(--color-accent)', marginTop: 'var(--space-2)' }}>Cono Sur · Sudamérica</div>
+          </div>
+          <ThemeToggle />
         </div>
       </header>
 
@@ -104,7 +108,7 @@ export default function HomePage() {
                 position: 'sticky',
                 top: 0,
                 height: '100vh',
-                background: 'rgba(11,20,38,0.5)',
+                background: 'var(--color-bg-surface)',
               }}
             >
               {/* Sidebar label */}
