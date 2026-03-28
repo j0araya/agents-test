@@ -14,14 +14,14 @@ export default function RegionCard({ region, isHovered, onHover }: RegionCardPro
     <button
       className="w-full text-left"
       style={{
-        background: isHovered ? `${region.color}18` : 'rgba(17,29,53,0.4)',
-        border: `1px solid ${isHovered ? region.color + '70' : 'rgba(200,169,110,0.12)'}`,
+        background: isHovered ? `${region.color}18` : 'var(--color-bg-card)',
+        border: `1px solid ${isHovered ? region.color + '70' : 'var(--color-border)'}`,
         borderRadius: '8px',
         padding: '14px 16px',
         cursor: 'pointer',
         outline: 'none',
         transform: isHovered ? 'translateY(-1px)' : 'translateY(0)',
-        boxShadow: isHovered ? `0 6px 20px ${region.color}22, 0 2px 8px rgba(0,0,0,0.3)` : '0 1px 4px rgba(0,0,0,0.2)',
+        boxShadow: isHovered ? `0 6px 20px ${region.color}22, 0 2px 8px var(--color-shadow, rgba(0,0,0,0.2))` : '0 1px 4px var(--color-shadow, rgba(0,0,0,0.1))',
         transition: 'background 0.2s ease, border-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease',
       }}
       onMouseEnter={() => onHover(region.slug)}

@@ -13,6 +13,7 @@
   --color-border: rgba(200, 169, 110, 0.15);
   --color-region-fill: #c8a84b;
   --color-region-stroke: #0b1426;
+  --color-shadow: rgba(0, 0, 0, 0.3);
 
   /* Legacy aliases (keep for backward compat) */
   --navy: var(--color-bg);
@@ -60,6 +61,7 @@
   --color-border: rgba(122, 92, 16, 0.2);
   --color-region-fill: #7a5c10;
   --color-region-stroke: #f5f0e8;
+  --color-shadow: rgba(0, 0, 0, 0.08);
 
   /* Legacy aliases */
   --navy: var(--color-bg);
