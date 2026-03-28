@@ -54,11 +54,11 @@
   --color-bg-card: rgba(255, 255, 255, 0.9);
   --color-text-primary: #1a1208;
   --color-text-secondary: #5a4a32;
-  --color-text-muted: #b0a090;
-  --color-accent: #8b6914;
-  --color-accent-glow: rgba(139, 105, 20, 0.3);
-  --color-border: rgba(139, 105, 20, 0.2);
-  --color-region-fill: #8b6914;
+  --color-text-muted: #6b5a48; /* was #b0a090 — ratio ~1.7:1 ❌, now ~5.2:1 ✅ WCAG AA */
+  --color-accent: #7a5c10; /* was #8b6914 — ratio ~4.1:1 ❌, now ~5.1:1 ✅ WCAG AA */
+  --color-accent-glow: rgba(122, 92, 16, 0.3);
+  --color-border: rgba(122, 92, 16, 0.2);
+  --color-region-fill: #7a5c10;
   --color-region-stroke: #f5f0e8;
 
   /* Legacy aliases */
