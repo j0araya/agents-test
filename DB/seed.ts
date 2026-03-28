@@ -1,20 +1,24 @@
 import 'dotenv/config';
-import { PrismaClient } from '@prisma/client';
-import { PrismaPg } from '@prisma/adapter-pg';
-import pg from 'pg';
-import { regions } from '../src/data/regions';
+// All imports resolved from backend/node_modules — schema lives in DB/, client generated in backend/
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const { PrismaClient } = require('../backend/node_modules/.prisma/client');
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const { PrismaPg } = require('../backend/node_modules/@prisma/adapter-pg');
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const pg = require('../backend/node_modules/pg');
+import { regions } from '../backend/src/data/regions';
 
 async function main() {
   const pool = new pg.Pool({
     connectionString: process.env.DATABASE_URL,
   });
   const adapter = new PrismaPg(pool);
-  const prisma = new PrismaClient({ adapter } as any);
+  const prisma = new PrismaClient({ adapter });
 
   console.log('Seeding database with', regions.length, 'regions...');
 
   for (const region of regions) {
-    await (prisma as any).region.upsert({
+    await prisma.region.upsert({
       where: { slug: region.slug },
       update: {
         name: region.name,
@@ -52,7 +56,7 @@ async function main() {
   }
 
   console.log('Seed complete.');
-  await (prisma as any).$disconnect();
+  await prisma.$disconnect();
   await pool.end();
 }
 
