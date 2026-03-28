@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { getRegion } from '@/src/services/api';
 import { ThemeToggle } from '@/src/components/ThemeToggle';
+import RegionHeroImage from '@/src/components/RegionHeroImage';
 import type { Region } from '@/src/types/region';
 
 const ATTRACTION_COLORS: Record<string, string> = {
@@ -95,6 +96,13 @@ export default function RegionPage() {
         <ThemeToggle />
       </div>
 
+      {/* Hero image */}
+      <RegionHeroImage
+        imageUrl={region.imageUrl}
+        regionColor={region.color}
+        alt={`Paisaje de ${region.name}`}
+      />
+
       {/* Hero band */}
       <div
         style={{
@@ -102,7 +110,6 @@ export default function RegionPage() {
           padding: 'var(--space-12) var(--space-10) var(--space-16)',
           paddingLeft: 'clamp(var(--space-10), 5vw, var(--space-16))',
           paddingRight: 'clamp(var(--space-10), 5vw, var(--space-16))',
-          background: `linear-gradient(135deg, ${region.color}22 0%, var(--navy) 60%)`,
           borderBottom: `1px solid ${region.color}28`,
         }}
       >
