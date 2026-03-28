@@ -87,7 +87,7 @@ export default function ChileMap({ regions, hoveredSlug, onHover }: ChileMapProp
       {/* Tooltip */}
       {tooltipRegion && (
         <div
-          className="pointer-events-none absolute z-20 px-3 py-2 rounded text-sm max-w-[160px]"
+          className="pointer-events-none absolute z-20 px-3 py-2 rounded text-sm max-w-[180px]"
           style={{
             left: tooltipPos.x + 14,
             top: tooltipPos.y - 10,
@@ -113,7 +113,7 @@ export default function ChileMap({ regions, hoveredSlug, onHover }: ChileMapProp
       <svg
         viewBox="0 0 200 640"
         className="w-full h-full"
-        style={{ maxWidth: '220px', filter: 'drop-shadow(0 0 24px rgba(0,0,0,0.6))' }}
+        style={{ maxWidth: '240px', filter: 'drop-shadow(0 0 24px rgba(0,0,0,0.6))' }}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleRegionLeave}
       >
@@ -223,7 +223,7 @@ export default function ChileMap({ regions, hoveredSlug, onHover }: ChileMapProp
         />
 
         {/* Compass rose */}
-        <g transform="translate(175, 20)">
+        <g transform="translate(178, 24)">
           <circle r="8" fill="rgba(11,20,38,0.8)" stroke="rgba(200,169,110,0.3)" strokeWidth="0.5" />
           <text textAnchor="middle" y="-10" fontSize="5" fill="rgba(200,169,110,0.7)" fontFamily="serif">N</text>
           <text textAnchor="middle" y="14" fontSize="5" fill="rgba(200,169,110,0.4)" fontFamily="serif">S</text>

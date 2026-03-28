@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 :root {
+  /* Colors */
   --navy: #0b1426;
   --navy-light: #111d35;
   --navy-mid: #162040;
@@ -11,6 +12,23 @@
   --text-muted: #4a5a78;
   --border: rgba(200, 169, 110, 0.15);
   --card-bg: rgba(17, 29, 53, 0.8);
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* Typography */
+  --font-serif: 'Georgia', 'Times New Roman', serif;
+  --font-mono: 'ui-monospace', 'Menlo', 'Monaco', 'Courier New', monospace;
+  --font-display: 'Georgia', serif;
 }
 
 * {
@@ -25,7 +43,7 @@ body,
   height: 100%;
   background-color: var(--navy);
   color: var(--text-primary);
-  font-family: 'Georgia', 'Times New Roman', serif;
+  font-family: var(--font-serif);
   -webkit-font-smoothing: antialiased;
 }
 
