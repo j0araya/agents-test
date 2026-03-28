@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import mongoose from 'mongoose';
 import { Region } from '../backend/src/models/Region';
 import { regions } from '../backend/src/data/regions';
@@ -12,7 +11,7 @@ async function seed() {
   let upserted = 0;
   for (const region of regions) {
     const { id: _id, ...doc } = region as any;
-    await Region.findOneAndUpdate({ slug: doc.slug }, doc, { upsert: true, new: true });
+    await Region.findOneAndUpdate({ slug: doc.slug }, doc, { upsert: true, returnDocument: 'after' });
     upserted++;
   }
 
