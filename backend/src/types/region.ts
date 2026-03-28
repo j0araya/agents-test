@@ -1,5 +1,5 @@
 export interface Region {
-  id: string;
+  id: string; // legacy string id from static data, not used as DB primary key
   slug: string;
   name: string;
   number: string;
@@ -16,10 +16,22 @@ export interface Region {
   color: string;
 }
 
+export interface RegionSummary {
+  id: number; // auto-increment PK from Prisma
+  slug: string;
+  name: string;
+  number: string;
+  capital: string;
+  population: number;
+  area: number;
+  description: string;
+  color: string;
+}
+
 export interface Attraction {
   name: string;
   description: string;
-  type: "natural" | "cultural" | "historical" | "adventure";
+  type: 'natural' | 'cultural' | 'historical' | 'adventure';
 }
 
 export interface Fact {

@@ -1,16 +1,24 @@
+import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import regionsRouter from './routes/regions';
+import prisma from './lib/prisma';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+const CORS_ORIGIN = process.env.CORS_ORIGIN || 'http://localhost:5173';
 
-app.use(cors({ origin: 'http://localhost:5173' }));
+app.use(cors({ origin: CORS_ORIGIN }));
 app.use(express.json());
 
-// Health check
-app.get('/health', (_req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+// Health check — includes DB connectivity status
+app.get('/health', async (_req, res) => {
+  try {
+    await (prisma as any).$queryRawUnsafe('SELECT 1');
+    res.json({ status: 'ok', db: 'connected', timestamp: new Date().toISOString() });
+  } catch {
+    res.status(503).json({ status: 'error', db: 'disconnected', timestamp: new Date().toISOString() });
+  }
 });
 
 // Routes
