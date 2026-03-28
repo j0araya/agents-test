@@ -53,14 +53,14 @@ export default function RegionPage() {
   if (error || !region) {
     return (
       <div
-        className="min-h-screen flex flex-col items-center justify-center gap-4"
+        className="min-h-screen flex flex-col items-center justify-center gap-5"
         style={{ background: 'var(--navy)' }}
       >
         <div className="text-3xl" style={{ color: 'var(--accent)' }}>⚠</div>
         <p style={{ color: 'var(--text-secondary)' }}>{error ?? 'Región no encontrada.'}</p>
         <button
           onClick={() => navigate('/')}
-          className="text-sm px-4 py-2 rounded"
+          className="text-sm px-5 py-2.5 rounded transition-colors"
           style={{
             border: '1px solid var(--border)',
             color: 'var(--accent)',
@@ -77,18 +77,19 @@ export default function RegionPage() {
 
   return (
     <div className="min-h-screen" style={{ background: 'var(--navy)', color: 'var(--text-primary)' }}>
+
       {/* Hero band */}
       <div
-        className="relative px-6 md:px-12 py-10"
+        className="relative px-8 md:px-16 pt-10 pb-12"
         style={{
-          background: `linear-gradient(135deg, ${region.color}22 0%, var(--navy) 60%)`,
-          borderBottom: `1px solid ${region.color}30`,
+          background: `linear-gradient(135deg, ${region.color}20 0%, var(--navy) 65%)`,
+          borderBottom: `1px solid ${region.color}28`,
         }}
       >
         {/* Back button */}
         <button
           onClick={() => navigate('/')}
-          className="flex items-center gap-2 text-xs mb-6 transition-colors"
+          className="flex items-center gap-2 text-xs mb-8 transition-opacity hover:opacity-100"
           style={{
             color: 'var(--text-secondary)',
             background: 'none',
@@ -97,30 +98,42 @@ export default function RegionPage() {
             fontFamily: 'monospace',
             letterSpacing: '0.1em',
             textTransform: 'uppercase',
+            opacity: 0.7,
+            padding: 0,
           }}
         >
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M12 7H2M6 11L2 7l4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path
+              d="M12 7H2M6 11L2 7l4-4"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
           Volver al Atlas
         </button>
 
-        <div className="flex flex-wrap items-start justify-between gap-6">
-          <div>
+        <div className="flex flex-wrap items-start justify-between gap-8">
+          <div className="flex-1 min-w-0">
             <div
-              className="text-xs tracking-[0.3em] uppercase mb-2"
+              className="text-xs tracking-[0.35em] uppercase mb-3"
               style={{ color: region.color, fontFamily: 'monospace' }}
             >
               Región {region.number} · {region.capital}
             </div>
             <h1
-              className="text-3xl md:text-5xl font-normal leading-tight"
-              style={{ fontFamily: 'Georgia, serif', letterSpacing: '-0.02em', maxWidth: '600px' }}
+              className="text-3xl md:text-5xl font-normal leading-tight mb-4"
+              style={{
+                fontFamily: 'Georgia, serif',
+                letterSpacing: '-0.02em',
+                maxWidth: '600px',
+              }}
             >
               {region.name}
             </h1>
             <p
-              className="mt-3 text-base max-w-xl leading-relaxed"
+              className="text-base leading-relaxed max-w-xl"
               style={{ color: 'var(--text-secondary)', fontFamily: 'Georgia, serif' }}
             >
               {region.description}
@@ -129,7 +142,7 @@ export default function RegionPage() {
 
           {/* Key stats */}
           <div
-            className="grid grid-cols-2 gap-x-8 gap-y-3 text-sm"
+            className="grid grid-cols-2 gap-x-10 gap-y-5 shrink-0 pt-1"
             style={{ fontFamily: 'monospace' }}
           >
             {[
@@ -138,11 +151,16 @@ export default function RegionPage() {
               { label: 'Capital', value: region.capital },
               { label: 'Clima', value: region.climate },
             ].map(({ label, value }) => (
-              <div key={label}>
-                <div className="text-xs uppercase tracking-wider mb-0.5" style={{ color: 'var(--text-muted)' }}>
+              <div key={label} className="flex flex-col gap-1">
+                <div
+                  className="text-xs uppercase tracking-wider"
+                  style={{ color: 'var(--text-muted)' }}
+                >
                   {label}
                 </div>
-                <div style={{ color: 'var(--text-primary)' }}>{value}</div>
+                <div className="text-sm" style={{ color: 'var(--text-primary)' }}>
+                  {value}
+                </div>
               </div>
             ))}
           </div>
@@ -150,63 +168,75 @@ export default function RegionPage() {
       </div>
 
       {/* Body */}
-      <div className="px-6 md:px-12 py-10 max-w-5xl">
+      <div className="px-8 md:px-16 py-12 max-w-6xl">
+
         {/* Long description */}
-        <section className="mb-10">
+        <section className="mb-12">
           <h2
-            className="text-xs uppercase tracking-[0.25em] mb-4"
+            className="text-xs uppercase tracking-[0.3em] mb-5"
             style={{ color: region.color, fontFamily: 'monospace' }}
           >
             Descripción
           </h2>
           <p
-            className="text-base leading-relaxed"
-            style={{ color: 'var(--text-secondary)', fontFamily: 'Georgia, serif', maxWidth: '680px' }}
+            className="text-base leading-loose"
+            style={{
+              color: 'var(--text-secondary)',
+              fontFamily: 'Georgia, serif',
+              maxWidth: '700px',
+            }}
           >
             {region.longDescription}
           </p>
         </section>
 
-        {/* Two-column layout: Attractions + Facts/Activities */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        {/* Divider */}
+        <div style={{ borderTop: '1px solid var(--border)', marginBottom: '48px' }} />
+
+        {/* Two-column layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+
           {/* Attractions */}
           <section>
             <h2
-              className="text-xs uppercase tracking-[0.25em] mb-4"
+              className="text-xs uppercase tracking-[0.3em] mb-6"
               style={{ color: region.color, fontFamily: 'monospace' }}
             >
               Atracciones principales
             </h2>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-4">
               {region.attractions.map((attr) => (
                 <div
                   key={attr.name}
-                  className="p-4 rounded"
+                  className="p-5 rounded-lg"
                   style={{
-                    background: `${ATTRACTION_COLORS[attr.type]}10`,
-                    border: `1px solid ${ATTRACTION_COLORS[attr.type]}30`,
+                    background: `${ATTRACTION_COLORS[attr.type]}0e`,
+                    border: `1px solid ${ATTRACTION_COLORS[attr.type]}28`,
                   }}
                 >
-                  <div className="flex items-start justify-between gap-2 mb-1">
+                  <div className="flex items-start justify-between gap-3 mb-2">
                     <span
-                      className="font-semibold text-sm"
+                      className="font-semibold text-sm leading-snug"
                       style={{ color: 'var(--text-primary)', fontFamily: 'Georgia, serif' }}
                     >
                       {attr.name}
                     </span>
                     <span
-                      className="text-xs px-2 py-0.5 rounded-full shrink-0"
+                      className="text-xs px-2.5 py-1 rounded-full shrink-0"
                       style={{
-                        background: `${ATTRACTION_COLORS[attr.type]}25`,
+                        background: `${ATTRACTION_COLORS[attr.type]}22`,
                         color: ATTRACTION_COLORS[attr.type],
                         fontFamily: 'monospace',
-                        letterSpacing: '0.05em',
+                        letterSpacing: '0.06em',
                       }}
                     >
                       {ATTRACTION_LABELS[attr.type]}
                     </span>
                   </div>
-                  <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                  <p
+                    className="text-xs leading-relaxed"
+                    style={{ color: 'var(--text-secondary)' }}
+                  >
                     {attr.description}
                   </p>
                 </div>
@@ -214,27 +244,34 @@ export default function RegionPage() {
             </div>
           </section>
 
-          {/* Right column: Facts + Activities */}
-          <div className="flex flex-col gap-10">
+          {/* Right column */}
+          <div className="flex flex-col gap-12">
+
             {/* Facts */}
             <section>
               <h2
-                className="text-xs uppercase tracking-[0.25em] mb-4"
+                className="text-xs uppercase tracking-[0.3em] mb-6"
                 style={{ color: region.color, fontFamily: 'monospace' }}
               >
                 Datos de la región
               </h2>
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col">
                 {region.facts.map((fact) => (
                   <div
                     key={fact.label}
-                    className="flex items-center justify-between py-2"
+                    className="flex items-center justify-between py-3"
                     style={{ borderBottom: '1px solid var(--border)' }}
                   >
-                    <span className="text-xs uppercase tracking-wider" style={{ color: 'var(--text-muted)', fontFamily: 'monospace' }}>
+                    <span
+                      className="text-xs uppercase tracking-wider"
+                      style={{ color: 'var(--text-muted)', fontFamily: 'monospace' }}
+                    >
                       {fact.label}
                     </span>
-                    <span className="text-sm font-semibold" style={{ color: 'var(--text-primary)', fontFamily: 'Georgia, serif' }}>
+                    <span
+                      className="text-sm font-semibold text-right ml-4"
+                      style={{ color: 'var(--text-primary)', fontFamily: 'Georgia, serif' }}
+                    >
                       {fact.value}
                     </span>
                   </div>
@@ -245,21 +282,22 @@ export default function RegionPage() {
             {/* Main activities */}
             <section>
               <h2
-                className="text-xs uppercase tracking-[0.25em] mb-4"
+                className="text-xs uppercase tracking-[0.3em] mb-5"
                 style={{ color: region.color, fontFamily: 'monospace' }}
               >
                 Actividades principales
               </h2>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2.5">
                 {region.mainActivities.map((activity) => (
                   <span
                     key={activity}
-                    className="text-xs px-3 py-1.5 rounded"
+                    className="text-xs px-3.5 py-2 rounded"
                     style={{
-                      background: `${region.color}15`,
-                      border: `1px solid ${region.color}35`,
+                      background: `${region.color}12`,
+                      border: `1px solid ${region.color}30`,
                       color: region.color,
                       fontFamily: 'monospace',
+                      letterSpacing: '0.04em',
                     }}
                   >
                     {activity}
@@ -267,8 +305,12 @@ export default function RegionPage() {
                 ))}
               </div>
             </section>
+
           </div>
         </div>
+
+        {/* Bottom spacer */}
+        <div className="pb-16" />
       </div>
     </div>
   );
