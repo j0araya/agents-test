@@ -1,20 +1,14 @@
-version: '3.9'
+# Base compose — shared service definitions.
+# Never use alone. Always run with an override:
+#   Dev:  docker compose -f docker-compose.yml -f docker-compose.dev.yml up
+#   Prod: docker compose -f docker-compose.yml -f docker-compose.prod.yml up
 
 services:
-  mongo:
-    image: mongo:7
-    container_name: chile_atlas_db
-    environment:
-      MONGO_INITDB_DATABASE: chile_atlas
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: chile_atlas_backend
     ports:
-      - '27017:27017'
-    volumes:
-      - mongo_data:/data/db
-    healthcheck:
-      test: ['CMD', 'mongosh', '--eval', "db.adminCommand('ping')"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-volumes:
-  mongo_data:
+      - '3001:3001'
+    restart: unless-stopped

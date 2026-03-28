@@ -1,0 +1,29 @@
+# Development override — spins up a local MongoDB + backend.
+# Usage: docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+
+services:
+  mongo:
+    image: mongo:7
+    container_name: chile_atlas_mongo_dev
+    environment:
+      MONGO_INITDB_DATABASE: chile_atlas
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo_dev_data:/data/db
+    healthcheck:
+      test: ['CMD', 'mongosh', '--eval', "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    env_file: ./backend/.env
+    environment:
+      MONGODB_URI: mongodb://mongo:27017/chile_atlas
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+volumes:
+  mongo_dev_data:
