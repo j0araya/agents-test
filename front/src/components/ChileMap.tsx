@@ -1,50 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { RegionSummary } from '../types/region';
+import { REGION_PATHS } from '../data/regionSvgPaths';
 
 interface ChileMapProps {
   regions: RegionSummary[];
   hoveredSlug: string | null;
   onHover: (slug: string | null) => void;
 }
-
-// SVG viewBox: 0 0 200 900 — Chile runs top (north) to bottom (south)
-// Each region is a rough polygon approximating its real shape.
-// Regions ordered north→south.
-const REGION_PATHS: Record<string, string> = {
-  'arica-y-parinacota':
-    'M 55,0 L 145,0 L 148,10 L 150,22 L 148,34 L 120,36 L 100,38 L 80,36 L 58,34 L 52,22 Z',
-  tarapaca:
-    'M 58,34 L 80,36 L 100,38 L 120,36 L 148,34 L 152,48 L 154,62 L 152,76 L 118,78 L 98,80 L 78,78 L 56,76 L 52,62 Z',
-  antofagasta:
-    'M 56,76 L 78,78 L 98,80 L 118,78 L 152,76 L 156,94 L 158,114 L 156,134 L 150,148 L 122,150 L 100,152 L 78,150 L 58,148 L 50,134 L 48,114 Z',
-  atacama:
-    'M 58,148 L 78,150 L 100,152 L 122,150 L 150,148 L 154,162 L 156,176 L 154,190 L 128,192 L 100,194 L 72,192 L 54,190 L 50,176 Z',
-  coquimbo:
-    'M 54,190 L 72,192 L 100,194 L 128,192 L 154,190 L 158,204 L 160,218 L 158,232 L 130,234 L 100,236 L 70,234 L 48,232 L 44,218 Z',
-  valparaiso:
-    'M 48,232 L 70,234 L 100,236 L 130,234 L 158,232 L 160,244 L 158,256 L 132,258 L 100,260 L 68,258 L 46,256 L 44,244 Z',
-  metropolitana:
-    'M 46,256 L 68,258 L 100,260 L 132,258 L 158,256 L 160,266 L 158,276 L 130,278 L 100,280 L 70,278 L 44,276 L 42,266 Z',
-  "o'higgins":
-    'M 44,276 L 70,278 L 100,280 L 130,278 L 158,276 L 160,288 L 158,300 L 128,302 L 100,304 L 72,302 L 42,300 L 40,288 Z',
-  maule:
-    'M 42,300 L 72,302 L 100,304 L 128,302 L 158,300 L 160,314 L 158,328 L 126,330 L 100,332 L 74,330 L 40,328 L 38,314 Z',
-  nuble:
-    'M 40,328 L 74,330 L 100,332 L 126,330 L 158,328 L 160,340 L 158,352 L 124,354 L 100,356 L 76,354 L 38,352 L 36,340 Z',
-  biobio:
-    'M 36,352 L 76,354 L 100,356 L 124,354 L 158,352 L 162,366 L 162,380 L 130,382 L 100,384 L 70,382 L 34,380 L 32,366 Z',
-  araucania:
-    'M 34,380 L 70,382 L 100,384 L 130,382 L 162,380 L 164,394 L 162,408 L 128,410 L 100,412 L 72,410 L 32,408 L 30,394 Z',
-  'los-rios':
-    'M 32,408 L 72,410 L 100,412 L 128,410 L 162,408 L 164,422 L 162,434 L 126,436 L 100,438 L 74,436 L 30,434 L 28,422 Z',
-  'los-lagos':
-    'M 30,434 L 74,436 L 100,438 L 126,436 L 162,434 L 165,450 L 164,466 L 155,478 L 130,482 L 100,484 L 70,482 L 45,478 L 28,466 L 26,450 Z',
-  aysen:
-    'M 28,466 L 45,478 L 70,482 L 100,484 L 130,482 L 155,478 L 164,494 L 162,514 L 155,534 L 140,548 L 112,554 L 88,554 L 60,548 L 38,534 L 26,514 L 22,494 Z',
-  magallanes:
-    'M 22,494 L 26,514 L 38,534 L 60,548 L 88,554 L 112,554 L 140,548 L 155,534 L 162,514 L 168,534 L 170,560 L 165,586 L 152,608 L 132,624 L 100,634 L 68,624 L 48,608 L 35,586 L 28,560 L 24,534 Z',
-};
 
 const ATTRACTION_ICONS: Record<string, string> = {
   natural: '⛰',
